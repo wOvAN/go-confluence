@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+var Debug bool = false
+
 type Wiki struct {
 	endPoint   *url.URL
 	authMethod AuthMethod

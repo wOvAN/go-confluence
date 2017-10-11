@@ -2,6 +2,7 @@ package confluence
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -21,6 +22,9 @@ type Content struct {
 	Version struct {
 		Number int `json:"number"`
 	} `json:"version"`
+	Space struct {
+		Key string `json:"key"`
+	} `json:"space"`
 }
 
 func (w *Wiki) contentEndpoint(contentID string) (*url.URL, error) {
@@ -38,9 +42,12 @@ func (w *Wiki) DeleteContent(contentID string) error {
 		return err
 	}
 
-	_, err = w.sendRequest(req)
+	res, err := w.sendRequest(req)
 	if err != nil {
 		return err
+	}
+	if Debug {
+		log.Println("DeleteContent: ", string(res))
 	}
 	return nil
 }
@@ -62,6 +69,10 @@ func (w *Wiki) GetContent(contentID string, expand []string) (*Content, error) {
 	res, err := w.sendRequest(req)
 	if err != nil {
 		return nil, err
+	}
+
+	if Debug {
+		log.Println("GetContent: ", string(res))
 	}
 
 	var content Content
@@ -86,6 +97,10 @@ func (w *Wiki) UpdateContent(content *Content) (*Content, error) {
 	res, err := w.sendRequest(req)
 	if err != nil {
 		return nil, err
+	}
+
+	if Debug {
+		log.Println("UpdateContent: ", string(res))
 	}
 
 	var newContent Content
