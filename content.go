@@ -24,7 +24,7 @@ type Content struct {
 	} `json:"version"`
 	Space struct {
 		Key string `json:"key"`
-	} `json:"space"`
+	} `json:"space,omitempty"`
 }
 
 func (w *Wiki) contentEndpoint(contentID string) (*url.URL, error) {
